@@ -9,7 +9,7 @@ router.post('/add', async (req, res) => {
 router.get('/', async (req, res) => {
     res.send(await SenderLocationController.fetch(req.query.name));
 });
-router.get('/receiverLocationbyId', async (req, res) => {
+router.get('/senderLocationbyId', async (req, res) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	const response = await SenderLocationController.fetchdata(req.query.id);
 	res.send(response);
