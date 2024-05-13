@@ -72,7 +72,7 @@ class LorryController {
             let updateresponse = await lorrySchema.update(body, {
                 where: { id: id }
             });
-            let response = await locationSchema.findByPk(id);
+            let response = await lorrySchema.findByPk(id);
             return { status: "success", msg: "Data Updated successfully", result: response };
         } catch (error) {
             return { status: "error", error: error };
