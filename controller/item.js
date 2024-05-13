@@ -7,10 +7,10 @@ class ItemController {
 
     async add(body) {
         try {
-            await itemSchema.create(body);
+            let resCreate =  await itemSchema.create(body);
+            let response = await itemSchema.findByPk(resCreate.id);
             return {
-                status: 'success',
-                msg: 'Item created'
+                status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
             return {
@@ -29,10 +29,7 @@ class ItemController {
 
             let response = await itemSchema.findAll({ where: condition });
             let count = Object.keys(response).length;
-            return {
-                response: response,
-                count: count
-            };
+            return { status: "success",   msg:"data get successfully", result: response };
         } catch (error) {
             return {
                 status: "error",
@@ -59,10 +56,7 @@ class ItemController {
             let response = await itemSchema.destroy({
                 where: { id: id }
             });
-            return {
-                status: "success",
-                response: response
-            };
+            return { status: "success",   msg:"data Deleted successfully", result: response };
         } catch (error) {
             return {
                 status: "error",
@@ -73,10 +67,11 @@ class ItemController {
 
     async update(id, body) {
         try {
-            let response = await itemSchema.update(body, {
+            let updateresponse = await itemSchema.update(body, {
                 where: { id: id }
             });
-            return { status: "success", msg: "Item Updated successfully", result: response };
+            let response = await itemSchema.findByPk(id);
+            return { status: "success", msg: "Data Updated successfully", result: response };
         } catch (error) {
             return { status: "error", error: error };
         }

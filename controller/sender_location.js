@@ -8,10 +8,10 @@ class SenderLocationController {
 
     async add(body) {
         try {
-            await SenderLocationSchema.create(body);
+           let resCreate = await SenderLocationSchema.create(body);
+            let response = await SenderLocationSchema.findByPk(resCreate.id);
             return {
-                status: 'success',
-                msg: 'SenderLocation created'
+                status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
             return {
@@ -29,10 +29,8 @@ class SenderLocationController {
 
             let response = await SenderLocationSchema.findAll({ where: condition });
             let count = Object.keys(response).length;
-            return {
-                response: response,
-                count: count
-            };
+            return { status: "success",   msg:"data get successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -59,10 +57,8 @@ class SenderLocationController {
             let response = await SenderLocationSchema.destroy({
                 where: { id: id }
             });
-            return {
-                status: "success",
-                response: response
-            };
+            return { status: "success",   msg:"data Deleted successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -73,11 +69,12 @@ class SenderLocationController {
 
     async update(id, body) {
         try {
-            let response = await SenderLocationSchema.update(body, {
+            let updateresponse = await SenderLocationSchema.update(body, {
                 where: { id: id }
             });
-            return { status: "success", msg: "SenderLocation Updated successfully", result: response };
-        } catch (error) {
+            let response = await SenderLocationSchema.findByPk(id);
+            return { status: "success", msg: "Data Updated successfully", result: response };    
+             } catch (error) {
             return { status: "error", error: error };
         }
 

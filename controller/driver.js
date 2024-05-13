@@ -8,10 +8,10 @@ class DriverController {
 
     async add(body) {
         try {
-            await driverSchema.create(body);
+            let resCreate = await driverSchema.create(body);
+            let response = await driverSchema.findByPk(resCreate.id);
             return {
-                status: 'success',
-                msg: 'Driver created'
+                status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
             return {
@@ -34,10 +34,7 @@ class DriverController {
                 }],
                 where: condition });
             let count = Object.keys(response).length;
-            return {
-                response: response,
-                count: count
-            };
+            return { status: "success",   msg:"data get successfully", result: response };
         } catch (error) {
             return {
                 status: "error",
@@ -64,10 +61,7 @@ class DriverController {
             let response = await driverSchema.destroy({
                 where: { id: id }
             });
-            return {
-                status: "success",
-                response: response
-            };
+            return { status: "success",   msg:"data Deleted successfully", result: response };
         } catch (error) {
             return {
                 status: "error",
@@ -78,10 +72,11 @@ class DriverController {
 
     async update(id, body) {
         try {
-            let response = await driverSchema.update(body, {
+            let updateResponse = await driverSchema.update(body, {
                 where: { id: id }
             });
-            return { status: "success", msg: "Driver Updated successfully", result: response };
+            let response = await driverSchema.findByPk(id);
+            return { status: "success", msg: "Data Updated successfully", result: response };
         } catch (error) {
             return { status: "error", error: error };
         }

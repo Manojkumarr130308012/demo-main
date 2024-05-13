@@ -7,10 +7,10 @@ class LocationController {
 
     async add(body) {
         try {
-            await locationSchema.create(body);
+            let resCreate =  await locationSchema.create(body);
+            let response = await locationSchema.findByPk(resCreate.id);
             return {
-                status: 'success',
-                msg: 'Location created'
+                status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
             return {
@@ -29,10 +29,8 @@ class LocationController {
 
             let response = await locationSchema.findAll({ where: condition });
             let count = Object.keys(response).length;
-            return {
-                response: response,
-                count: count
-            };
+            return { status: "success",   msg:"data get successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -59,10 +57,8 @@ class LocationController {
             let response = await locationSchema.destroy({
                 where: { id: id }
             });
-            return {
-                status: "success",
-                response: response
-            };
+            return { status: "success",   msg:"data Deleted successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -73,10 +69,11 @@ class LocationController {
 
     async update(id, body) {
         try {
-            let response = await locationSchema.update(body, {
+            let updateresponse = await locationSchema.update(body, {
                 where: { id: id }
             });
-            return { status: "success", msg: "Location Updated successfully", result: response };
+            let response = await locationSchema.findByPk(id);
+            return { status: "success", msg: "Data Updated successfully", result: response };
         } catch (error) {
             return { status: "error", error: error };
         }

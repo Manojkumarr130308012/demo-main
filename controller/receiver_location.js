@@ -8,10 +8,10 @@ class ReceiverLocationController {
 
     async add(body) {
         try {
-            await receiverLocationSchema.create(body);
+            let resCreate = await receiverLocationSchema.create(body);
+            let response = await receiverLocationSchema.findByPk(resCreate.id);
             return {
-                status: 'success',
-                msg: 'ReceiverLocation created'
+                status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
             return {
@@ -29,10 +29,8 @@ class ReceiverLocationController {
 
             let response = await receiverLocationSchema.findAll({ where: condition });
             let count = Object.keys(response).length;
-            return {
-                response: response,
-                count: count
-            };
+            return { status: "success",   msg:"data get successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -59,10 +57,8 @@ class ReceiverLocationController {
             let response = await receiverLocationSchema.destroy({
                 where: { id: id }
             });
-            return {
-                status: "success",
-                response: response
-            };
+            return { status: "success",   msg:"data Deleted successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -73,11 +69,12 @@ class ReceiverLocationController {
 
     async update(id, body) {
         try {
-            let response = await receiverLocationSchema.update(body, {
+            let updateresponse = await receiverLocationSchema.update(body, {
                 where: { id: id }
             });
-            return { status: "success", msg: "ReceiverLocation Updated successfully", result: response };
-        } catch (error) {
+            let response = await receiverLocationSchema.findByPk(id);
+            return { status: "success", msg: "Data Updated successfully", result: response };  
+              } catch (error) {
             return { status: "error", error: error };
         }
 

@@ -7,10 +7,10 @@ class LorryController {
 
     async add(body) {
         try {
-            await lorrySchema.create(body);
+            let resCreate = await lorrySchema.create(body);
+            let response = await lorrySchema.findByPk(resCreate.id);
             return {
-                status: 'success',
-                msg: 'Lorry created'
+                status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
             return {
@@ -29,10 +29,8 @@ class LorryController {
 
             let response = await lorrySchema.findAll({ where: condition });
             let count = Object.keys(response).length;
-            return {
-                response: response,
-                count: count
-            };
+            return { status: "success",   msg:"data get successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -59,10 +57,8 @@ class LorryController {
             let response = await lorrySchema.destroy({
                 where: { id: id }
             });
-            return {
-                status: "success",
-                response: response
-            };
+            return { status: "success",   msg:"data Deleted successfully", result: response };
+
         } catch (error) {
             return {
                 status: "error",
@@ -73,10 +69,11 @@ class LorryController {
 
     async update(id, body) {
         try {
-            let response = await lorrySchema.update(body, {
+            let updateresponse = await lorrySchema.update(body, {
                 where: { id: id }
             });
-            return { status: "success", msg: "Lorry Updated successfully", result: response };
+            let response = await locationSchema.findByPk(id);
+            return { status: "success", msg: "Data Updated successfully", result: response };
         } catch (error) {
             return { status: "error", error: error };
         }
