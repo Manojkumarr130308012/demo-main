@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const SenderLocationController = require('../controller/sender_location');
+const multer = require('multer');
+const exceljs = require('exceljs');
 
+const upload = multer();
+const excelupload = multer({ dest: 'uploads/' });
 
 router.post('/add', async (req, res) => {
     res.send(await SenderLocationController.add(req.body));
@@ -20,6 +24,12 @@ router.delete('/delete', async (req, res) => {
 })
 router.put('/update', async (req, res) => {
 	const response = await SenderLocationController.update(req.query.id, req.body);
+	res.send(response);
+})
+
+router.put('/addExcel',excelupload.single('file'),async (req, res) => {
+	console.log(req.file.path);
+	const response = await SenderLocationController.addSenderLocationExcel(req.file.path);
 	res.send(response);
 })
 

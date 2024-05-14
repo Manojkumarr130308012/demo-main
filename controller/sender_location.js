@@ -2,7 +2,8 @@ const errorHandler = require('../utils/error.handler');
 const db = require("../middleware/middleware");
 const SenderLocationSchema = db.sender_location;
 const Op = db.Sequelize.Op;
-
+const multer = require('multer');
+const exceljs = require('exceljs');
 class SenderLocationController {
 
 
@@ -20,6 +21,46 @@ class SenderLocationController {
             }
         }
     }
+
+    async addSenderLocationExcel(path){
+        if (!path) {
+            return res.status(400).send('No file uploaded.');
+          }
+        
+          const workbook = new exceljs.Workbook();
+          workbook.xlsx.readFile(path)
+            .then(() => {
+              const worksheet = workbook.getWorksheet(1);
+              worksheet.eachRow({ includeEmpty: false }, async (row, rowNumber) => {
+                if (rowNumber !== 1) { 
+                  const rowData = row.values;
+                  const sender_location = new SenderLocationSchema({
+                    name: rowData[1],
+                    address: rowData[2],
+                    street: rowData[3],
+                    city: rowData[4],
+                    town: rowData[5],
+                    shortcutTown : rowData[6],
+                    tamil_name : rowData[7],
+                    tamil_address : rowData[8],
+                    tamil_street : rowData[9],
+                    tamil_city : rowData[10],
+                    tamil_town : rowData[11]
+                  });
+                  sender_location.save()
+                    .then(() => console.log(`Saved student: ${sender_location.name}`))
+                    .catch(err => console.error(`Error saving student: ${err}`));
+                }
+              });
+        
+              return { status: "success",   msg:"File uploaded successfully."};
+            })
+            .catch(err => {
+              console.error(`Error reading Excel file: ${err}`);
+              return { status: "error",   msg:"Error processing file."};
+            });
+    }
+
 
 
     async fetch(name) {
