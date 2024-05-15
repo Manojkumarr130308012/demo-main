@@ -13,6 +13,7 @@ class ItemController {
                 status: "success", msg:"data Created successfully", result: response
             }
         } catch (err) {
+            console.log("err",err);
             return {
                 status: 'error',
                 msg: 'Item creation failed'

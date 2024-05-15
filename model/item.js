@@ -25,9 +25,16 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: true,
     },
     locationArray: {
-      type: Sequelize.ARRAY(Sequelize.STRING), // Assuming locationArray is an array of strings
+      type: Sequelize.TEXT, // Using TEXT type to store JSON string
       allowNull: true,
-    }
+      get() {
+          const value = this.getDataValue('locationArray');
+          return value ? JSON.parse(value) : [];
+      },
+      set(value) {
+          this.setDataValue('locationArray', JSON.stringify(value));
+      }
+  }
     });
     return Item;
   };
