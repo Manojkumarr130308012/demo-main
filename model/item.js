@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
     const Item = sequelize.define("item", {
-  name: {
+    name: {
         type: Sequelize.STRING,
         allowNull: true,  
     },
@@ -22,6 +22,10 @@ module.exports = (sequelize, Sequelize) => {
     },
     tamil_item : {
       type: Sequelize.STRING,
+      allowNull: true,
+    },
+    locationArray: {
+      type: Sequelize.ARRAY(Sequelize.STRING), // Assuming locationArray is an array of strings
       allowNull: true,
     }
     });
