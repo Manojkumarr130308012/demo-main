@@ -27,7 +27,6 @@ class ReceiverLocationController {
         if (!path) {
             return res.status(400).send('No file uploaded.');
           }
-        
           const workbook = new exceljs.Workbook();
           workbook.xlsx.readFile(path)
             .then(() => {
@@ -49,7 +48,7 @@ class ReceiverLocationController {
                     tamil_town : rowData[11]
                   });
                   receiver_location.save()
-                    .then(() => console.log(`Saved student: ${receiver_location.name}`))
+                    .then(() => console.log(`Saved : ${receiver_location.name}`))
                     .catch(err => console.error(`Error saving student: ${err}`));
                 }
               });
