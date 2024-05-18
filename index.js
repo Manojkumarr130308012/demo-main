@@ -28,6 +28,9 @@ db.sequelize.sync()
   const receiverLocationRouter = require('./router/receiver_location.js');
   const senderLocationRouter = require('./router/sender_location.js');
   const itemRouter = require('./router/item.js');
+  const billRouter = require('./router/billing.js');
+  const billingHistoryRouter = require('./router/billing_history.js');
+
 
 
   app.use("/auth", authRouter);
@@ -38,5 +41,9 @@ db.sequelize.sync()
   app.use("/receiverLocation",verifyTokenAndAuthorization, receiverLocationRouter);
   app.use("/senderLocation",verifyTokenAndAuthorization, senderLocationRouter);
   app.use("/item",verifyTokenAndAuthorization, itemRouter);
+  app.use("/billing",verifyTokenAndAuthorization, billRouter);
+  app.use("/billingHistory",verifyTokenAndAuthorization, billingHistoryRouter);
+
+
 
 app.listen(config.PORT, () => console.log(`url-shortener listening on port ${config.PORT}!`));

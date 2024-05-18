@@ -25,6 +25,8 @@ db.location = require("../model/location.js")(sequelize, Sequelize);
 db.receiver_location = require("../model/receiver_location.js")(sequelize, Sequelize);
 db.sender_location = require("../model/sender_location.js")(sequelize, Sequelize);
 db.item = require("../model/item.js")(sequelize, Sequelize);
+db.billing = require("../model/billing.js")(sequelize, Sequelize);
+db.billingHistory = require("../model/billing_history.js")(sequelize, Sequelize);
 
 
 module.exports = db;
