@@ -43,6 +43,10 @@ module.exports = (sequelize,Sequelize) => {
         tamil_town : {
             type: Sequelize.STRING,
             allowNull: true
+        },
+        location_id: {
+            type: Sequelize.INTEGER,
+            allowNull: true
         }
     });
 

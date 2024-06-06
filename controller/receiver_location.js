@@ -68,7 +68,11 @@ class ReceiverLocationController {
 
             var condition = name ? { name: { [Op.iLike]: `%${name}%` } } : null;
 
-            let response = await receiverLocationSchema.findAll({ where: condition });
+            let response = await receiverLocationSchema.findAll({ 
+                include :[{
+                    model : db.location,
+                }],
+                where: condition });
             let count = Object.keys(response).length;
             return { status: "success",   msg:"data get successfully", result: response };
 
@@ -124,6 +128,14 @@ class ReceiverLocationController {
 
 }
 
+db.location.hasMany(receiverLocationSchema, {
+    foreignKey: "location_id",
+    targetKey: "id",
+});
 
+receiverLocationSchema.belongsTo(db.location, {
+    foreignKey: "location_id",
+    targetKey: "id",
+});
 
 module.exports = new ReceiverLocationController();
