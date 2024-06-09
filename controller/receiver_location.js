@@ -99,7 +99,7 @@ class ReceiverLocationController {
 
   async fetchByLocation(locationId) {
         try {
-            let response = await receiverLocationSchema.destroy({
+            let response = await receiverLocationSchema.findAll({
                 where: { location_id: locationId },
                 include :[{
                     model : db.location,
