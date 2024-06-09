@@ -105,7 +105,7 @@ class ReceiverLocationController {
                     model : db.location,
                 }]
             });
-            return { status: "success",   msg:"data Deleted successfully", result: response };
+            return { status: "success",   msg:"data get successfully", result: response };
 
         } catch (error) {
             return {
