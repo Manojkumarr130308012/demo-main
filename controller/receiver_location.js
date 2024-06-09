@@ -97,6 +97,26 @@ class ReceiverLocationController {
         }
     }
 
+  async fetchByLocation(locationId) {
+        try {
+            let response = await receiverLocationSchema.destroy({
+                where: { location_id: locationId },
+                include :[{
+                    model : db.location,
+                }]
+            });
+            return { status: "success",   msg:"data Deleted successfully", result: response };
+
+        } catch (error) {
+            return {
+                status: "error",
+                error: errorHandler.parseMongoError(error)
+            };
+        }
+    }
+
+    
+
     async delete(id) {
         try {
             let response = await receiverLocationSchema.destroy({
